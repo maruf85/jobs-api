@@ -33,6 +33,12 @@ export const ProfileSchema = new mongoose.Schema(
         ref: 'Skill',
       },
     ],
+    certifications: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Certification',
+      },
+    ],
   },
   { timestamps: true },
 );
