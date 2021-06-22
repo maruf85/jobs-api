@@ -39,6 +39,12 @@ export const ProfileSchema = new mongoose.Schema(
         ref: 'Certification',
       },
     ],
+    languages: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Language',
+      },
+    ],
   },
   { timestamps: true },
 );

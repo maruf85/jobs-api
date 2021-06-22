@@ -27,7 +27,7 @@ export class UsersService {
     try {
       return await this.userModel.find().select('-password').populate({
         path: 'profile',
-        select: '-education -experiences -skills',
+        select: '-education -experiences -skills -languages',
       });
     } catch (error) {
       throw new HttpException(`${error.message}`, HttpStatus.BAD_REQUEST);

@@ -24,7 +24,7 @@ export class ProfilesService {
     try {
       return await this.profileModel
         .find()
-        .populate('education experiences skills certifications');
+        .populate('education experiences skills certifications languages');
     } catch (error) {
       throw new HttpException(`${error.message}`, HttpStatus.BAD_REQUEST);
     }

@@ -1,6 +1,7 @@
 import { Certification } from 'src/certifications/interfaces/certification.interface';
 import { Education } from 'src/education/interfaces/education.interface';
 import { Experience } from 'src/experiences/interfaces/experience.interface';
+import { Language } from 'src/languages/interfaces/language.interface';
 import { Skill } from 'src/skills/interfaces/skill.interface';
 
 export interface Profile {
@@ -13,4 +14,5 @@ export interface Profile {
   experiences?: Experience[];
   skills?: Skill[];
   certifications?: Certification[];
+  languages?: Language[];
 }
