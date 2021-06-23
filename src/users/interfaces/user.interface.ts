@@ -1,3 +1,4 @@
+import { UserType } from 'src/constants/userType.enum';
 import { Profile } from 'src/profiles/interfaces/profile.interface';
 import { Role } from '../../constants/role.enum';
 
@@ -7,7 +8,6 @@ export interface User {
   email?: string;
   password: string;
   role?: Role;
+  userType?: UserType;
   profile?: Profile;
-  createdAt?: Date;
-  updatedAt?: Date;
 }

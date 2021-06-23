@@ -27,7 +27,7 @@ export class UsersService {
     try {
       return await this.userModel.find().select('-password').populate({
         path: 'profile',
-        select: '-education -experiences -skills -languages',
+        select: '-education -experiences -skills -certifications -languages',
       });
     } catch (error) {
       throw new HttpException(`${error.message}`, HttpStatus.BAD_REQUEST);
@@ -73,7 +73,6 @@ export class UsersService {
             ...userInterface,
             password: hashedPassword,
             profile: profileId,
-            createdAt: new Date(),
           });
           return newUser.save();
         });
