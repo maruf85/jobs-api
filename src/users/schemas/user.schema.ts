@@ -23,12 +23,16 @@ export const UserSchema = new mongoose.Schema(
     },
     userType: {
       type: String,
-      enum: Role,
+      enum: UserType,
       default: UserType.JOB_SEEKER,
     },
     profile: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Profile',
+    },
+    company: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Company',
     },
   },
   { timestamps: true },

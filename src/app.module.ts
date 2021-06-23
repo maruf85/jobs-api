@@ -15,6 +15,7 @@ import { ExperiencesModule } from './experiences/experiences.module';
 import { SkillsModule } from './skills/skills.module';
 import { CertificationsModule } from './certifications/certifications.module';
 import { LanguagesModule } from './languages/languages.module';
+import { CompanyModule } from './company/company.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { LanguagesModule } from './languages/languages.module';
     SkillsModule,
     CertificationsModule,
     LanguagesModule,
+    CompanyModule,
   ],
   controllers: [AppController],
   providers: [AppService],

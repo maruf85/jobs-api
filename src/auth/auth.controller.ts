@@ -6,7 +6,9 @@ import {
   Request,
   UseGuards,
 } from '@nestjs/common';
+import { CreateCompanyDto } from 'src/company/dto/create-company.dto';
 import { Role } from 'src/constants/role.enum';
+import { UserType } from 'src/constants/userType.enum';
 import { CreateProfileDto } from 'src/profiles/dto/create-profile.dto';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
 import { User } from 'src/users/interfaces/user.interface';
@@ -27,9 +29,12 @@ export class AuthController {
   @Post('register')
   create(
     @Body() createProfileDto: CreateProfileDto,
+    @Body() createCompanyDto: CreateCompanyDto,
     @Body() createUserDto: CreateUserDto,
   ): Promise<User> {
-    return this.usersService.create(createProfileDto, createUserDto);
+    return createUserDto.userType === UserType.RECRUITER
+      ? this.usersService.createCompany(createCompanyDto, createUserDto)
+      : this.usersService.createProfile(createProfileDto, createUserDto);
   }
 
   @UseGuards(LocalAuthGaurd)

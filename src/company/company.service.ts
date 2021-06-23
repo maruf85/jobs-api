@@ -9,51 +9,49 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { CloudinaryService } from 'src/cloudinary/cloudinary.service';
-import { Profile } from './interfaces/profile.interface';
+import { Company } from './interfaces/company.interface';
 
 @Injectable()
-export class ProfilesService {
+export class CompanyService {
   constructor(
-    @InjectModel('Profile')
-    private readonly profileModel: Model<Profile>,
+    @InjectModel('Company')
+    private readonly companyModel: Model<Company>,
     @Inject(forwardRef(() => CloudinaryService))
     private cloudinaryService: CloudinaryService,
   ) {}
 
-  async findAll(): Promise<Profile[]> {
+  async findAll(): Promise<Company[]> {
     try {
-      return await this.profileModel
-        .find()
-        .populate('education experiences skills certifications languages');
+      return await this.companyModel.find();
     } catch (error) {
       throw new HttpException(`${error.message}`, HttpStatus.BAD_REQUEST);
     }
   }
 
-  async findOne(id: string): Promise<Profile> {
+  async findOne(id: string): Promise<Company> {
     try {
-      return await this.profileModel.findOne({ _id: id });
+      return await this.companyModel.findOne({ _id: id });
     } catch (error) {
       throw new HttpException(`${error.message}`, HttpStatus.BAD_REQUEST);
     }
   }
 
-  async create(profile: Profile): Promise<Profile> {
+  async create(company: Company): Promise<Company> {
     try {
-      const newProfile = new this.profileModel({
-        ...profile,
+      const newCompany = new this.companyModel({
+        ...company,
       });
-      return await newProfile.save();
+      return await newCompany.save();
     } catch (error) {
       throw new HttpException(`${error.message}`, HttpStatus.BAD_REQUEST);
     }
   }
 
-  async update(id: string, profile: Profile): Promise<Profile> {
+  async update(id: string, company: Company): Promise<Company> {
     try {
-      return await this.profileModel.findByIdAndUpdate(
+      return await this.companyModel.findByIdAndUpdate(
         id,
-        { ...profile },
+        { ...company },
         {
           new: true,
         },
@@ -66,12 +64,12 @@ export class ProfilesService {
   async updateProfileImage(
     id: string,
     imageUrl: string,
-    profile?: Profile,
-  ): Promise<Profile> {
+    company?: Company,
+  ): Promise<Company> {
     try {
-      return await this.profileModel.findByIdAndUpdate(
+      return await this.companyModel.findByIdAndUpdate(
         id,
-        { ...profile, profileImage: imageUrl, updatedAt: new Date() },
+        { ...company, profileImage: imageUrl },
         {
           new: true,
         },
@@ -81,11 +79,11 @@ export class ProfilesService {
     }
   }
 
-  async uploadImageToCloudinary(file: Express.Multer.File, profileId: string) {
+  async uploadImageToCloudinary(file: Express.Multer.File, companyId: string) {
     try {
-      return await this.cloudinaryService.uploadUserProfileImage(
+      return await this.cloudinaryService.uploadCompanyProfileImage(
         file,
-        profileId,
+        companyId,
       );
     } catch (error) {
       throw new BadRequestException(`${error.message}`, 'Invalid file type.');
