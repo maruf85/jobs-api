@@ -11,4 +11,5 @@ export class BaseUserDto {
   readonly company?: Company;
   readonly role: Role;
   readonly userType: UserType;
+  readonly isBlocked: boolean;
 }

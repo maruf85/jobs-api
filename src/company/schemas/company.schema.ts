@@ -15,6 +15,11 @@ export const CompanySchema = new mongoose.Schema(
       type: String,
       default: null,
     },
+    companyInfo: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'CompanyInfo',
+      default: null,
+    },
   },
   { timestamps: true },
 );

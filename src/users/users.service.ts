@@ -36,7 +36,10 @@ export class UsersService {
           path: 'profile',
           select: '-education -experiences -skills -certifications -languages',
         })
-        .populate({ path: 'company' });
+        .populate({
+          path: 'company',
+          select: '-companyInfo',
+        });
     } catch (error) {
       throw new HttpException(`${error.message}`, HttpStatus.BAD_REQUEST);
     }

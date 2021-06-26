@@ -12,4 +12,5 @@ export interface User {
   userType?: UserType;
   profile?: Profile;
   company?: Company;
+  isBlocked?: boolean;
 }

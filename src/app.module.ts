@@ -16,6 +16,7 @@ import { SkillsModule } from './skills/skills.module';
 import { CertificationsModule } from './certifications/certifications.module';
 import { LanguagesModule } from './languages/languages.module';
 import { CompanyModule } from './company/company.module';
+import { CompanyInfoModule } from './company-info/company-info.module';
 
 @Module({
   imports: [
@@ -38,6 +39,7 @@ import { CompanyModule } from './company/company.module';
     CertificationsModule,
     LanguagesModule,
     CompanyModule,
+    CompanyInfoModule,
   ],
   controllers: [AppController],
   providers: [AppService],

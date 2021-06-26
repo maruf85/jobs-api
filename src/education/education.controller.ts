@@ -28,7 +28,6 @@ export class EducationController {
 
   @Post()
   create(@Body() createEducationDto: CreateEducationDto): Promise<Education> {
-    console.log(createEducationDto);
     return this.educationService.create(createEducationDto);
   }
 
