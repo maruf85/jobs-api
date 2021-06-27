@@ -12,4 +12,5 @@ export interface JobInterface extends Document {
   isRemote?: boolean;
   isActive: boolean;
   isPublished: boolean;
+  applicants?: string;
 }

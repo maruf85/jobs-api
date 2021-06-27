@@ -2,10 +2,11 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as mongoose from 'mongoose';
 import { JobType } from 'src/constants/jobType.enum';
 import { SkillLevel } from 'src/constants/skillLevel.enum';
+import { Profile } from 'src/profiles/interfaces/profile.interface';
 
-@Schema()
+@Schema({ timestamps: true })
 export class Job extends mongoose.Document {
-  @Prop({ required: true })
+  @Prop()
   title: string;
 
   @Prop()
@@ -35,9 +36,16 @@ export class Job extends mongoose.Document {
   @Prop({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Company',
-    required: true,
   })
   companyId: string;
+
+  @Prop([
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: 'Profile',
+    },
+  ])
+  applicants: Profile;
 }
 
 export const JobSchema = SchemaFactory.createForClass(Job);

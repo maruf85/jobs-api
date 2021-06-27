@@ -45,6 +45,12 @@ export const ProfileSchema = new mongoose.Schema(
         ref: 'Language',
       },
     ],
+    jobs: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Job',
+      },
+    ],
   },
   { timestamps: true },
 );

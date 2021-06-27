@@ -8,7 +8,6 @@ import {
   Put,
 } from '@nestjs/common';
 import { CreateJobDto } from './dto/create-job.dto';
-import { JobInterface } from './interfaces/job.interface';
 import { Job } from './schemas/job.schema';
 import { JobsService } from './jobs.service';
 import { UpdateJobDto } from './dto/update-job.dto';
@@ -28,9 +27,7 @@ export class JobsController {
   }
 
   @Post()
-  public async create(
-    @Body() createJobDto: CreateJobDto,
-  ): Promise<JobInterface> {
+  public async create(@Body() createJobDto: CreateJobDto): Promise<Job> {
     return await this.jobsService.create(createJobDto);
   }
 
@@ -38,7 +35,7 @@ export class JobsController {
   update(
     @Param('id') jobId: string,
     @Body() updateJobDto: UpdateJobDto,
-  ): Promise<JobInterface> {
+  ): Promise<Job> {
     return this.jobsService.update(jobId, updateJobDto);
   }
 

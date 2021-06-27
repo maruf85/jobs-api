@@ -9,7 +9,6 @@ import { Model } from 'mongoose';
 import { Company } from 'src/company/interfaces/company.interface';
 import { CreateJobDto } from './dto/create-job.dto';
 import { UpdateJobDto } from './dto/update-job.dto';
-import { JobInterface } from './interfaces/job.interface';
 import { Job } from './schemas/job.schema';
 
 @Injectable()
@@ -23,7 +22,13 @@ export class JobsService {
 
   public async findAll(): Promise<Job[]> {
     try {
-      return await this.jobModel.find();
+      return await this.jobModel.find().populate({
+        path: 'applicants',
+        select: '-jobs',
+        populate: {
+          path: 'education experiences skills certifications languages',
+        },
+      });
     } catch (error) {
       throw new HttpException(`${error.message}`, HttpStatus.BAD_REQUEST);
     }
@@ -43,7 +48,7 @@ export class JobsService {
     }
   }
 
-  public async create(createJobDto: CreateJobDto): Promise<JobInterface> {
+  public async create(createJobDto: CreateJobDto): Promise<Job> {
     try {
       const company = await this.companyModel.findOne({
         _id: createJobDto.companyId,
@@ -66,10 +71,7 @@ export class JobsService {
     }
   }
 
-  async update(
-    jobId: string,
-    updateJobDto: UpdateJobDto,
-  ): Promise<JobInterface> {
+  async update(jobId: string, updateJobDto: UpdateJobDto): Promise<Job> {
     try {
       return await this.jobModel.findByIdAndUpdate(
         jobId,

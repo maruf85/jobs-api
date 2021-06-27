@@ -18,6 +18,7 @@ import { LanguagesModule } from './languages/languages.module';
 import { CompanyModule } from './company/company.module';
 import { CompanyInfoModule } from './company-info/company-info.module';
 import { JobsModule } from './jobs/jobs.module';
+import { JobActivityModule } from './job-activity/job-activity.module';
 
 @Module({
   imports: [
@@ -42,6 +43,7 @@ import { JobsModule } from './jobs/jobs.module';
     CompanyModule,
     CompanyInfoModule,
     JobsModule,
+    JobActivityModule,
   ],
   controllers: [AppController],
   providers: [AppService],
