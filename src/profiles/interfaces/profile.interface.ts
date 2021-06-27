@@ -15,5 +15,5 @@ export interface Profile {
   skills?: Skill[];
   certifications?: Certification[];
   languages?: Language[];
-  jobs?: string;
+  jobs?: string[];
 }

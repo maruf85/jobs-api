@@ -49,11 +49,17 @@ export class JobActivityService {
         ...createJobActivityDto,
       });
 
+      const isjobApplied = profile.jobs.includes(createJobActivityDto.jobId);
+
+      if (isjobApplied) {
+        throw new HttpException('Already applied', HttpStatus.BAD_REQUEST);
+      }
+
       if (profile && job) {
-        profile.jobs = newJobActivity.jobId;
+        profile.jobs.push(newJobActivity.jobId);
         await profile.save();
 
-        job.applicants = newJobActivity.profileId;
+        job.applicants.push(newJobActivity.profileId);
         await job.save();
       }
 
