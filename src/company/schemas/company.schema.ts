@@ -20,6 +20,12 @@ export const CompanySchema = new mongoose.Schema(
       ref: 'CompanyInfo',
       default: null,
     },
+    jobs: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Job',
+      },
+    ],
   },
   { timestamps: true },
 );

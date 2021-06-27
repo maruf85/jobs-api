@@ -22,7 +22,9 @@ export class CompanyService {
 
   async findAll(): Promise<Company[]> {
     try {
-      return await this.companyModel.find().populate({ path: 'companyInfo' });
+      return await this.companyModel
+        .find()
+        .populate({ path: 'companyInfo jobs' });
     } catch (error) {
       throw new HttpException(`${error.message}`, HttpStatus.BAD_REQUEST);
     }

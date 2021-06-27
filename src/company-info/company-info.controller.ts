@@ -17,32 +17,32 @@ export class CompanyInfoController {
   constructor(private readonly companyInfoService: CompanyInfoService) {}
 
   @Get()
-  findAll(): Promise<CompanyInfo[]> {
-    return this.companyInfoService.findAll();
+  public async findAll(): Promise<CompanyInfo[]> {
+    return await this.companyInfoService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string): Promise<CompanyInfo> {
-    return this.companyInfoService.findOne(id);
+  public async findOne(@Param('id') id: string): Promise<CompanyInfo> {
+    return await this.companyInfoService.findOne(id);
   }
 
   @Post()
-  create(
+  public async create(
     @Body() createCompanyInfoDto: CreateCompanyInfoDto,
   ): Promise<CompanyInfo> {
-    return this.companyInfoService.create(createCompanyInfoDto);
+    return await this.companyInfoService.create(createCompanyInfoDto);
   }
 
   @Put(':id')
-  update(
+  public async update(
     @Param('id') id: string,
     @Body() updateCompanyInfoDto: UpdateCompanyInfoDto,
   ): Promise<CompanyInfo> {
-    return this.companyInfoService.update(id, updateCompanyInfoDto);
+    return await this.companyInfoService.update(id, updateCompanyInfoDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string): Promise<CompanyInfo> {
-    return this.companyInfoService.delete(id);
+  public async remove(@Param('id') id: string): Promise<CompanyInfo> {
+    return await this.companyInfoService.delete(id);
   }
 }

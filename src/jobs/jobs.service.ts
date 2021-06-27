@@ -7,70 +7,73 @@ import {
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { Company } from 'src/company/interfaces/company.interface';
-import { CompanyInfo } from './interfaces/company-info.interface';
+import { CreateJobDto } from './dto/create-job.dto';
+import { UpdateJobDto } from './dto/update-job.dto';
+import { JobInterface } from './interfaces/job.interface';
+import { Job } from './schemas/job.schema';
 
 @Injectable()
-export class CompanyInfoService {
+export class JobsService {
   constructor(
-    @InjectModel('CompanyInfo')
-    private readonly companyInfoModel: Model<CompanyInfo>,
+    @InjectModel('Job')
+    private readonly jobModel: Model<Job>,
     @InjectModel('Company')
     private readonly companyModel: Model<Company>,
   ) {}
 
-  public async findAll(): Promise<CompanyInfo[]> {
+  public async findAll(): Promise<Job[]> {
     try {
-      return await this.companyInfoModel.find();
+      return await this.jobModel.find();
     } catch (error) {
       throw new HttpException(`${error.message}`, HttpStatus.BAD_REQUEST);
     }
   }
 
-  public async findOne(id: string): Promise<CompanyInfo> {
+  public async findOne(jobId: string): Promise<Job> {
     try {
-      const companyInfo = await this.companyInfoModel.findOne({ _id: id });
+      const job = await this.jobModel.findOne({ _id: jobId });
 
-      if (!companyInfo) {
+      if (!job) {
         throw new NotFoundException('Company Info does not exist!');
       }
 
-      return companyInfo;
+      return job;
     } catch (error) {
       throw new HttpException(`${error.message}`, HttpStatus.BAD_REQUEST);
     }
   }
 
-  public async create(companyInfo: CompanyInfo): Promise<CompanyInfo> {
+  public async create(createJobDto: CreateJobDto): Promise<JobInterface> {
     try {
       const company = await this.companyModel.findOne({
-        _id: companyInfo.companyId,
+        _id: createJobDto.companyId,
       });
 
-      const newCompanyInfo = new this.companyInfoModel({
-        ...companyInfo,
+      const newJob = new this.jobModel({
+        ...createJobDto,
       });
 
-      const _companyInfo = await newCompanyInfo.save();
+      const job = await newJob.save();
 
       if (company) {
-        company.companyInfo = newCompanyInfo;
+        company.jobs.push(newJob);
         await company.save();
       }
 
-      return _companyInfo;
+      return job;
     } catch (error) {
       throw new HttpException(`${error.message}`, HttpStatus.BAD_REQUEST);
     }
   }
 
-  public async update(
-    id: string,
-    companyInfo: CompanyInfo,
-  ): Promise<CompanyInfo> {
+  async update(
+    jobId: string,
+    updateJobDto: UpdateJobDto,
+  ): Promise<JobInterface> {
     try {
-      return await this.companyInfoModel.findByIdAndUpdate(
-        id,
-        { ...companyInfo },
+      return await this.jobModel.findByIdAndUpdate(
+        jobId,
+        { ...updateJobDto },
         {
           new: true,
         },
@@ -80,19 +83,19 @@ export class CompanyInfoService {
     }
   }
 
-  public async delete(id: string): Promise<CompanyInfo> {
+  async delete(jobId: string): Promise<any> {
     try {
-      const companyInfo = await this.companyInfoModel.findByIdAndRemove(id);
+      const job = await this.jobModel.findByIdAndRemove(jobId);
       const company = await this.companyModel.findOne({
-        _id: companyInfo.companyId,
+        _id: job.companyId,
       });
 
       if (company) {
         await this.companyModel.updateOne({
-          $unset: { companyInfo: companyInfo._id },
+          $pull: { jobs: job._id },
         });
       }
-      return companyInfo;
+      return job;
     } catch (error) {
       throw new HttpException(`${error.message}`, HttpStatus.BAD_REQUEST);
     }
