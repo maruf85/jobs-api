@@ -1,4 +1,9 @@
-import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  InternalServerErrorException,
+} from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { JobInterface } from 'src/jobs/interfaces/job.interface';
@@ -21,7 +26,7 @@ export class JobActivityService {
     try {
       return await this.jobActivityModel.find();
     } catch (error) {
-      throw new HttpException(`${error.message}`, HttpStatus.BAD_REQUEST);
+      throw new InternalServerErrorException(error);
     }
   }
 
@@ -29,7 +34,7 @@ export class JobActivityService {
     try {
       return await this.jobActivityModel.findOne({ _id: id });
     } catch (error) {
-      throw new HttpException(`${error.message}`, HttpStatus.BAD_REQUEST);
+      throw new InternalServerErrorException(error);
     }
   }
 
@@ -65,7 +70,7 @@ export class JobActivityService {
 
       return await newJobActivity.save();
     } catch (error) {
-      throw new HttpException(`${error.message}`, HttpStatus.BAD_REQUEST);
+      throw new InternalServerErrorException(error);
     }
   }
 }
