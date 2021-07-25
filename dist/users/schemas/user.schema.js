@@ -5,10 +5,6 @@ const mongoose = require("mongoose");
 const userType_enum_1 = require("../../constants/userType.enum");
 const role_enum_1 = require("../../constants/role.enum");
 exports.UserSchema = new mongoose.Schema({
-    username: {
-        type: String,
-        unique: true,
-    },
     email: {
         type: String,
     },

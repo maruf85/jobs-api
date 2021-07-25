@@ -31,9 +31,6 @@ let UsersController = class UsersController {
         console.log(id);
         return this.usersService.findById(id);
     }
-    findOne(username) {
-        return this.usersService.findByUserName(username);
-    }
     update(id, updateUserDto) {
         return this.usersService.update(id, updateUserDto);
     }
@@ -54,13 +51,6 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Promise)
 ], UsersController.prototype, "findById", null);
-__decorate([
-    common_1.Get(':username'),
-    __param(0, common_1.Param('username')),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", Promise)
-], UsersController.prototype, "findOne", null);
 __decorate([
     common_1.Put(':id'),
     __param(0, common_1.Param('id')),

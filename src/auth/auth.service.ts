@@ -6,6 +6,7 @@ import {
   Injectable,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { Response } from 'express';
 import * as bcrypt from 'bcrypt';
 import { UsersService } from '../users/users.service';
 
@@ -16,9 +17,9 @@ export class AuthService {
     private jwtService: JwtService,
   ) {}
 
-  async validateUser(username: string, password: string): Promise<any> {
+  async validateUser(email: string, password: string): Promise<any> {
     try {
-      const user = await this.usersService.findByUserName(username);
+      const user = await this.usersService.findByEmail(email);
       const isMatch = user
         ? await this.comparePassword(password, user.password)
         : null;
@@ -34,15 +35,29 @@ export class AuthService {
     }
   }
 
-  async login(user: any) {
+  async login(user: any, response: Response) {
+    const _user = await this.usersService.findByEmail(user.email);
+
     try {
-      const payload = { username: user.username, sub: user._id };
+      const payload = { email: user.email, sub: _user.id };
+      const jwt = await this.jwtService.signAsync(payload);
+
+      response.cookie('jwt', jwt, { httpOnly: true });
+
       return {
-        access_token: this.jwtService.sign(payload),
+        message: 'Login Success',
       };
     } catch (error) {
       throw new HttpException(`${error.message}`, HttpStatus.BAD_REQUEST);
     }
+  }
+
+  async logout(response: Response) {
+    response.clearCookie('jwt');
+
+    return {
+      message: 'Logout Success',
+    };
   }
 
   async hashPassword(password: string): Promise<string> {

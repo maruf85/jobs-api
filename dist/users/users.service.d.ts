@@ -12,8 +12,8 @@ export declare class UsersService {
     private readonly companyService;
     constructor(userModel: Model<User>, authService: AuthService, profileService: ProfilesService, companyService: CompanyService);
     findAll(): Promise<User[]>;
-    findByUserName(username: string): Promise<User | undefined>;
     findById(userId: string): Promise<User | undefined>;
+    findByEmail(userEmail: string): Promise<User | undefined>;
     createProfile(profile: Profile, userInterface: User): Promise<User>;
     createCompany(company: Company, userInterface: User): Promise<User>;
     update(id: string, user: User): Promise<User>;

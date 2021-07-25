@@ -23,6 +23,7 @@ const user_interface_1 = require("../users/interfaces/user.interface");
 const users_service_1 = require("../users/users.service");
 const auth_service_1 = require("./auth.service");
 const roles_decorator_1 = require("./decorators/roles.decorator");
+const login_user_dto_1 = require("./dto/login-user.dto");
 const jwt_auth_guard_1 = require("./guards/jwt-auth.guard");
 const local_auth_gaurd_1 = require("./guards/local-auth.gaurd");
 const roles_guard_1 = require("./guards/roles.guard");
@@ -36,8 +37,11 @@ let AuthController = class AuthController {
             ? this.usersService.createCompany(createCompanyDto, createUserDto)
             : this.usersService.createProfile(createProfileDto, createUserDto);
     }
-    login(req) {
-        return this.authService.login(req.user._doc);
+    login(loginUserDto, response) {
+        return this.authService.login(loginUserDto, response);
+    }
+    logout(response) {
+        return this.authService.logout(response);
     }
     protected() {
         return 'protected route';
@@ -57,11 +61,19 @@ __decorate([
 __decorate([
     common_1.UseGuards(local_auth_gaurd_1.LocalAuthGaurd),
     common_1.Post('login'),
-    __param(0, common_1.Request()),
+    __param(0, common_1.Body()),
+    __param(1, common_1.Res({ passthrough: true })),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [login_user_dto_1.LoginUserDto, Object]),
     __metadata("design:returntype", Object)
 ], AuthController.prototype, "login", null);
+__decorate([
+    common_1.Post('logout'),
+    __param(0, common_1.Res({ passthrough: true })),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "logout", null);
 __decorate([
     roles_decorator_1.Roles(role_enum_1.Role.ADMIN),
     common_1.UseGuards(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),

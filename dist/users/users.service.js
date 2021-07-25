@@ -46,14 +46,6 @@ let UsersService = class UsersService {
             throw new common_1.HttpException(`${error.message}`, common_1.HttpStatus.BAD_REQUEST);
         }
     }
-    async findByUserName(username) {
-        try {
-            return await this.userModel.findOne({ username: username });
-        }
-        catch (error) {
-            throw new common_1.HttpException(`${error.message}`, common_1.HttpStatus.BAD_REQUEST);
-        }
-    }
     async findById(userId) {
         try {
             return await this.userModel.findOne({ _id: userId });
@@ -62,9 +54,17 @@ let UsersService = class UsersService {
             throw new common_1.HttpException(`${error.message}`, common_1.HttpStatus.BAD_REQUEST);
         }
     }
+    async findByEmail(userEmail) {
+        try {
+            return await this.userModel.findOne({ email: userEmail });
+        }
+        catch (error) {
+            throw new common_1.HttpException(`${error.message}`, common_1.HttpStatus.BAD_REQUEST);
+        }
+    }
     async createProfile(profile, userInterface) {
-        const { username } = userInterface;
-        const user = await this.userModel.findOne({ username });
+        const { email } = userInterface;
+        const user = await this.userModel.findOne({ email });
         if (user) {
             throw new common_1.HttpException('User already exists', common_1.HttpStatus.BAD_REQUEST);
         }
@@ -86,8 +86,8 @@ let UsersService = class UsersService {
         }
     }
     async createCompany(company, userInterface) {
-        const { username } = userInterface;
-        const user = await this.userModel.findOne({ username });
+        const { email } = userInterface;
+        const user = await this.userModel.findOne({ email });
         if (user) {
             throw new common_1.HttpException('User already exists', common_1.HttpStatus.BAD_REQUEST);
         }

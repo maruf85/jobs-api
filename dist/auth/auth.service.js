@@ -33,9 +33,9 @@ let AuthService = class AuthService {
         this.usersService = usersService;
         this.jwtService = jwtService;
     }
-    async validateUser(username, password) {
+    async validateUser(email, password) {
         try {
-            const user = await this.usersService.findByUserName(username);
+            const user = await this.usersService.findByEmail(email);
             const isMatch = user
                 ? await this.comparePassword(password, user.password)
                 : null;
@@ -49,16 +49,25 @@ let AuthService = class AuthService {
             throw new common_1.HttpException(`${error.message}`, common_1.HttpStatus.BAD_REQUEST);
         }
     }
-    async login(user) {
+    async login(user, response) {
+        const _user = await this.usersService.findByEmail(user.email);
         try {
-            const payload = { username: user.username, sub: user._id };
+            const payload = { email: user.email, sub: _user.id };
+            const jwt = await this.jwtService.signAsync(payload);
+            response.cookie('jwt', jwt, { httpOnly: true });
             return {
-                access_token: this.jwtService.sign(payload),
+                message: 'Login Success',
             };
         }
         catch (error) {
             throw new common_1.HttpException(`${error.message}`, common_1.HttpStatus.BAD_REQUEST);
         }
+    }
+    async logout(response) {
+        response.clearCookie('jwt');
+        return {
+            message: 'Logout Success',
+        };
     }
     async hashPassword(password) {
         const saltOrRounds = 10;

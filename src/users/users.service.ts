@@ -45,14 +45,6 @@ export class UsersService {
     }
   }
 
-  async findByUserName(username: string): Promise<User | undefined> {
-    try {
-      return await this.userModel.findOne({ username: username });
-    } catch (error) {
-      throw new HttpException(`${error.message}`, HttpStatus.BAD_REQUEST);
-    }
-  }
-
   async findById(userId: string): Promise<User | undefined> {
     try {
       return await this.userModel.findOne({ _id: userId });
@@ -61,9 +53,17 @@ export class UsersService {
     }
   }
 
+  async findByEmail(userEmail: string): Promise<User | undefined> {
+    try {
+      return await this.userModel.findOne({ email: userEmail });
+    } catch (error) {
+      throw new HttpException(`${error.message}`, HttpStatus.BAD_REQUEST);
+    }
+  }
+
   async createProfile(profile: Profile, userInterface: User): Promise<User> {
-    const { username } = userInterface;
-    const user = await this.userModel.findOne({ username });
+    const { email } = userInterface;
+    const user = await this.userModel.findOne({ email });
 
     if (user) {
       throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);
@@ -93,8 +93,8 @@ export class UsersService {
   }
 
   async createCompany(company: Company, userInterface: User): Promise<User> {
-    const { username } = userInterface;
-    const user = await this.userModel.findOne({ username });
+    const { email } = userInterface;
+    const user = await this.userModel.findOne({ email });
 
     if (user) {
       throw new HttpException('User already exists', HttpStatus.BAD_REQUEST);

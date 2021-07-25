@@ -5,8 +5,7 @@ import { Role } from '../../constants/role.enum';
 
 export interface User {
   id?: string;
-  username: string;
-  email?: string;
+  email: string;
   password: string;
   role?: Role;
   userType?: UserType;
