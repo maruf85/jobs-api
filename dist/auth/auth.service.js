@@ -54,7 +54,11 @@ let AuthService = class AuthService {
         try {
             const payload = { email: user.email, sub: _user.id };
             const jwt = await this.jwtService.signAsync(payload);
-            response.cookie('jwt', jwt, { httpOnly: true });
+            response.cookie('jwt', jwt, {
+                httpOnly: true,
+                sameSite: 'none',
+                secure: true,
+            });
             return {
                 message: 'Login Success',
             };
