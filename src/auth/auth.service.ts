@@ -57,7 +57,10 @@ export class AuthService {
   }
 
   async logout(response: Response) {
-    response.clearCookie('jwt');
+    response.clearCookie('jwt', {
+      sameSite: 'none',
+      secure: true,
+    });
 
     return {
       message: 'Logout Success',
