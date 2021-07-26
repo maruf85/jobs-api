@@ -7,7 +7,7 @@ import { ValidationPipe } from '@nestjs/common';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.setGlobalPrefix('api');
-  app.enableCors({ credentials: true });
+  app.enableCors({ credentials: true, origin: process.env.CLIENT_URL });
   app.use(compression({ threshold: 9 }));
   app.useGlobalPipes(new ValidationPipe());
   const configService = app.get(ConfigService);
