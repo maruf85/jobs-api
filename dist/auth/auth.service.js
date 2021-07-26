@@ -84,6 +84,20 @@ let AuthService = class AuthService {
     async comparePassword(password, passwordHash) {
         return await bcrypt.compare(password, passwordHash);
     }
+    async verifyAuth(request) {
+        try {
+            const cookie = request.cookies['jwt'];
+            const data = await this.jwtService.verifyAsync(cookie);
+            if (!data) {
+                throw new common_1.UnauthorizedException();
+            }
+            const user = await this.usersService.findById(data['sub']);
+            return user;
+        }
+        catch (e) {
+            throw new common_1.UnauthorizedException();
+        }
+    }
 };
 AuthService = __decorate([
     common_1.Injectable(),

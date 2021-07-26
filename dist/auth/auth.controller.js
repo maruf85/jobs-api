@@ -43,6 +43,9 @@ let AuthController = class AuthController {
     logout(response) {
         return this.authService.logout(response);
     }
+    user(request) {
+        return this.authService.verifyAuth(request);
+    }
     protected() {
         return 'protected route';
     }
@@ -74,6 +77,13 @@ __decorate([
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], AuthController.prototype, "logout", null);
+__decorate([
+    common_1.Get('verify-auth'),
+    __param(0, common_1.Req()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Object]),
+    __metadata("design:returntype", void 0)
+], AuthController.prototype, "user", null);
 __decorate([
     roles_decorator_1.Roles(role_enum_1.Role.ADMIN),
     common_1.UseGuards(jwt_auth_guard_1.JwtAuthGuard, roles_guard_1.RolesGuard),

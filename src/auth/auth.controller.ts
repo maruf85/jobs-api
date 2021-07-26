@@ -1,5 +1,13 @@
-import { Body, Controller, Get, Post, Res, UseGuards } from '@nestjs/common';
-import { Response } from 'express';
+import {
+  Body,
+  Controller,
+  Get,
+  Post,
+  Req,
+  Res,
+  UseGuards,
+} from '@nestjs/common';
+import { Response, Request } from 'express';
 import { CreateCompanyDto } from 'src/company/dto/create-company.dto';
 import { Role } from 'src/constants/role.enum';
 import { UserType } from 'src/constants/userType.enum';
@@ -44,6 +52,11 @@ export class AuthController {
   @Post('logout')
   logout(@Res({ passthrough: true }) response: Response) {
     return this.authService.logout(response);
+  }
+
+  @Get('verify-auth')
+  user(@Req() request: Request) {
+    return this.authService.verifyAuth(request);
   }
 
   @Roles(Role.ADMIN)

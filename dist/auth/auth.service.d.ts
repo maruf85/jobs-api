@@ -1,5 +1,5 @@
 import { JwtService } from '@nestjs/jwt';
-import { Response } from 'express';
+import { Response, Request } from 'express';
 import { UsersService } from '../users/users.service';
 export declare class AuthService {
     private usersService;
@@ -14,4 +14,5 @@ export declare class AuthService {
     }>;
     hashPassword(password: string): Promise<string>;
     comparePassword(password: string | undefined, passwordHash: string | undefined): Promise<boolean>;
+    verifyAuth(request: Request): Promise<import("../users/interfaces/user.interface").User>;
 }

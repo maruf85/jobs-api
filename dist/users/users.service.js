@@ -48,7 +48,7 @@ let UsersService = class UsersService {
     }
     async findById(userId) {
         try {
-            return await this.userModel.findOne({ _id: userId });
+            return await this.userModel.findOne({ _id: userId }).select('-password');
         }
         catch (error) {
             throw new common_1.HttpException(`${error.message}`, common_1.HttpStatus.BAD_REQUEST);

@@ -1,4 +1,4 @@
-import { Response } from 'express';
+import { Response, Request } from 'express';
 import { CreateCompanyDto } from 'src/company/dto/create-company.dto';
 import { CreateProfileDto } from 'src/profiles/dto/create-profile.dto';
 import { CreateUserDto } from 'src/users/dto/create-user.dto';
@@ -15,5 +15,6 @@ export declare class AuthController {
     logout(response: Response): Promise<{
         message: string;
     }>;
+    user(request: Request): Promise<User>;
     protected(): string;
 }

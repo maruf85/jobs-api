@@ -27,7 +27,7 @@ AuthModule = __decorate([
             jwt_1.JwtModule.registerAsync({
                 imports: [config_1.ConfigModule],
                 useFactory: async (configService) => ({
-                    privateKey: configService.get('JWT_SECRET'),
+                    secret: configService.get('JWT_SECRET'),
                 }),
                 inject: [config_1.ConfigService],
             }),

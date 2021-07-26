@@ -47,7 +47,7 @@ export class UsersService {
 
   async findById(userId: string): Promise<User | undefined> {
     try {
-      return await this.userModel.findOne({ _id: userId });
+      return await this.userModel.findOne({ _id: userId }).select('-password');
     } catch (error) {
       throw new HttpException(`${error.message}`, HttpStatus.BAD_REQUEST);
     }

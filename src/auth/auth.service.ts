@@ -4,9 +4,10 @@ import {
   HttpStatus,
   Inject,
   Injectable,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { Response } from 'express';
+import { Response, Request } from 'express';
 import * as bcrypt from 'bcrypt';
 import { UsersService } from '../users/users.service';
 
@@ -78,5 +79,23 @@ export class AuthService {
     passwordHash: string | undefined,
   ): Promise<boolean> {
     return await bcrypt.compare(password, passwordHash);
+  }
+
+  async verifyAuth(request: Request) {
+    try {
+      const cookie = request.cookies['jwt'];
+
+      const data = await this.jwtService.verifyAsync(cookie);
+
+      if (!data) {
+        throw new UnauthorizedException();
+      }
+
+      const user = await this.usersService.findById(data['sub']);
+
+      return user;
+    } catch (e) {
+      throw new UnauthorizedException();
+    }
   }
 }
